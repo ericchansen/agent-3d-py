@@ -1,0 +1,5 @@
+{
+  "ids": ["box-01"],
+  "expectedRevision": 0,
+  "edit": { "position": { "x": -4, "y": 3, "z": -3 } }
+}

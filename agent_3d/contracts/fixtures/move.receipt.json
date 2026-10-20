@@ -1,0 +1,7 @@
+{
+  "operationId": "operation-move-01",
+  "affectedIds": ["box-01"],
+  "oldRevision": 0,
+  "newRevision": 1,
+  "outcome": "committed"
+}

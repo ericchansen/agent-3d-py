@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/ericchansen/agent-3d-ui/contracts/application.schema.json",
+  "title": "Agent 3D application state, version 1",
+  "$ref": "#/$defs/AgentState",
+  "$defs": {
+    "Id": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[A-Za-z0-9_-]+$" },
+    "Ids": { "type": "array", "maxItems": 64, "uniqueItems": true, "items": { "$ref": "#/$defs/Id" } },
+    "Revision": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "Position": {
+      "type": "object", "additionalProperties": false, "required": ["x", "y", "z"],
+      "properties": {
+        "x": { "type": "number", "minimum": -1000, "maximum": 1000 },
+        "y": { "type": "number", "minimum": -1000, "maximum": 1000 },
+        "z": { "type": "number", "minimum": -1000, "maximum": 1000 }
+      }
+    },
+    "Dimensions": {
+      "type": "object", "additionalProperties": false, "required": ["x", "y", "z"],
+      "properties": {
+        "x": { "type": "number", "minimum": 0.1, "maximum": 100 },
+        "y": { "type": "number", "minimum": 0.1, "maximum": 100 },
+        "z": { "type": "number", "minimum": 0.1, "maximum": 100 }
+      }
+    },
+    "SceneObject": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "shape", "position", "dimensions", "color", "tags"],
+      "properties": {
+        "id": { "$ref": "#/$defs/Id" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "shape": { "enum": ["box", "sphere", "cylinder"] },
+        "position": { "$ref": "#/$defs/Position" },
+        "dimensions": { "$ref": "#/$defs/Dimensions" },
+        "color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "tags": { "type": "array", "maxItems": 8, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 32 } }
+      }
+    },
+    "SceneSnapshot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "revision", "objects", "selectedIds", "highlightedIds"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "revision": { "$ref": "#/$defs/Revision" },
+        "objects": { "type": "array", "minItems": 1, "maxItems": 64, "items": { "$ref": "#/$defs/SceneObject" } },
+        "selectedIds": { "$ref": "#/$defs/Ids" },
+        "highlightedIds": { "$ref": "#/$defs/Ids" }
+      }
+    },
+    "Edit": {
+      "type": "object", "additionalProperties": false, "minProperties": 1,
+      "properties": {
+        "position": { "anyOf": [{ "$ref": "#/$defs/Position" }, { "type": "null" }] },
+        "color": { "anyOf": [{ "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }, { "type": "null" }] }
+      },
+      "anyOf": [
+        { "required": ["position"], "properties": { "position": { "$ref": "#/$defs/Position" } } },
+        { "required": ["color"], "properties": { "color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" } } }
+      ]
+    },
+    "EditRequest": {
+      "type": "object", "additionalProperties": false,
+      "required": ["ids", "expectedRevision", "edit"],
+      "properties": {
+        "ids": { "type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": { "$ref": "#/$defs/Id" } },
+        "expectedRevision": { "$ref": "#/$defs/Revision" },
+        "edit": { "$ref": "#/$defs/Edit" }
+      }
+    },
+    "OperationReceipt": {
+      "type": "object", "additionalProperties": false,
+      "required": ["operationId", "affectedIds", "oldRevision", "newRevision", "outcome"],
+      "properties": {
+        "operationId": { "$ref": "#/$defs/Id" },
+        "affectedIds": { "type": "array", "maxItems": 16, "uniqueItems": true, "items": { "$ref": "#/$defs/Id" } },
+        "oldRevision": { "$ref": "#/$defs/Revision" },
+        "newRevision": { "$ref": "#/$defs/Revision" },
+        "outcome": { "enum": ["committed", "rejected", "cancelled", "stale"] }
+      }
+    },
+    "ApplicationError": {
+      "type": "object", "additionalProperties": false, "required": ["code", "message", "retryable", "correlationId"],
+      "properties": {
+        "code": { "enum": ["INVALID_INPUT", "NOT_FOUND", "STALE_REVISION", "APPROVAL_REQUIRED", "ALREADY_CONSUMED", "BUSY", "SAVE_FAILED", "SESSION_RESET", "INTERNAL"] },
+        "message": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "retryable": { "type": "boolean" },
+        "correlationId": { "$ref": "#/$defs/Id" }
+      }
+    },
+    "AgentState": {
+      "type": "object", "additionalProperties": true,
+      "required": ["scene"],
+      "properties": {
+        "scene": { "$ref": "#/$defs/SceneSnapshot" },
+        "receipt": { "anyOf": [{ "$ref": "#/$defs/OperationReceipt" }, { "type": "null" }] },
+        "error": { "anyOf": [{ "$ref": "#/$defs/ApplicationError" }, { "type": "null" }] },
+        "provider": {
+          "type": "object", "additionalProperties": false, "required": ["name", "model"],
+          "properties": {
+            "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+            "model": { "type": "string", "minLength": 1, "maxLength": 120 }
+          }
+        },
+        "traceId": { "anyOf": [{ "$ref": "#/$defs/Id" }, { "type": "null" }] }
+      }
+    }
+  }
+}
