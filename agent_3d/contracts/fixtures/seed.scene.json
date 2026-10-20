@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "revision": 0,
+  "objects": [
+    { "id": "box-01", "name": "Amber block", "shape": "box", "position": { "x": -4, "y": 1, "z": -3 }, "dimensions": { "x": 2, "y": 2, "z": 2 }, "color": "#F59E0B", "tags": ["west", "base"] },
+    { "id": "box-02", "name": "Blue block", "shape": "box", "position": { "x": 0, "y": 1, "z": -3 }, "dimensions": { "x": 2, "y": 2, "z": 2 }, "color": "#2563EB", "tags": ["center", "base"] },
+    { "id": "box-03", "name": "Green block", "shape": "box", "position": { "x": 4, "y": 1.5, "z": -3 }, "dimensions": { "x": 2, "y": 3, "z": 2 }, "color": "#16A34A", "tags": ["east", "tall"] },
+    { "id": "box-04", "name": "Rose block", "shape": "box", "position": { "x": 8, "y": 1, "z": -3 }, "dimensions": { "x": 2, "y": 2, "z": 2 }, "color": "#E11D48", "tags": ["east", "base"] },
+    { "id": "sphere-01", "name": "Blue orb", "shape": "sphere", "position": { "x": -4, "y": 1, "z": 1 }, "dimensions": { "x": 2, "y": 2, "z": 2 }, "color": "#2563EB", "tags": ["west", "round"] },
+    { "id": "sphere-02", "name": "Amber orb", "shape": "sphere", "position": { "x": 0, "y": 1, "z": 1 }, "dimensions": { "x": 2, "y": 2, "z": 2 }, "color": "#F59E0B", "tags": ["center", "round"] },
+    { "id": "sphere-03", "name": "Rose orb", "shape": "sphere", "position": { "x": 4, "y": 1.5, "z": 1 }, "dimensions": { "x": 3, "y": 3, "z": 3 }, "color": "#E11D48", "tags": ["east", "round"] },
+    { "id": "sphere-04", "name": "Green orb", "shape": "sphere", "position": { "x": 8, "y": 1, "z": 1 }, "dimensions": { "x": 2, "y": 2, "z": 2 }, "color": "#16A34A", "tags": ["east", "round"] },
+    { "id": "cylinder-01", "name": "Blue column west", "shape": "cylinder", "position": { "x": -4, "y": 2, "z": 5 }, "dimensions": { "x": 2, "y": 4, "z": 2 }, "color": "#2563EB", "tags": ["west", "tall"] },
+    { "id": "cylinder-02", "name": "Blue column center", "shape": "cylinder", "position": { "x": 0, "y": 1.5, "z": 5 }, "dimensions": { "x": 2, "y": 3, "z": 2 }, "color": "#2563EB", "tags": ["center", "tall"] },
+    { "id": "cylinder-03", "name": "Green column", "shape": "cylinder", "position": { "x": 4, "y": 2, "z": 5 }, "dimensions": { "x": 2, "y": 4, "z": 2 }, "color": "#16A34A", "tags": ["east", "tall"] },
+    { "id": "cylinder-04", "name": "Amber column", "shape": "cylinder", "position": { "x": 8, "y": 1, "z": 5 }, "dimensions": { "x": 2, "y": 2, "z": 2 }, "color": "#F59E0B", "tags": ["east", "base"] }
+  ],
+  "selectedIds": [],
+  "highlightedIds": []
+}
